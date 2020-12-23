@@ -1,5 +1,10 @@
 import sys
 import cantera as ct
+import sdtoolbox
+from sdtoolbox.postshock import CJspeed, PostShock_eq, PostShock_fr
+from sdtoolbox.reflections import reflected_eq, reflected_fr
+from sdtoolbox.thermo import soundspeed_eq, soundspeed_fr
+
 print(sys.version)
 
 #圧力kPa,温度K
@@ -8,7 +13,7 @@ T1=298.15
 phi=0.5
 P2=180
 E2=0.65
-E4=0.7
+E4=1.0
 P4=P1
 
 #定圧燃焼
@@ -29,18 +34,31 @@ print(gas())
 
 HS2=gas.h
 
+
+#効率を考慮した圧縮
 H2=H1+(HS2-H1)/E2
 
-#効率を考慮した断熱圧縮
-gas.HP=H2,P2*100
 
+gas.HP=H2,P2*100
 print(gas())
 
+H2=gas.h
+T2=gas.T
+
+""""
+#デトネーション
+MOL=gas.mole_fraction_dict()
+cj_speed = CJspeed(P2*100, T2, MOL, 'gri30.cti')
+gas = PostShock_eq(cj_speed,P2*100,T2, MOL, 'gri30.cti')
+print(gas())
+H3=gas.h
+"""
 #定圧燃焼
 
 gas.equilibrate('HP')
 
 H3=gas.h
+
 
 print(gas())
 
@@ -51,7 +69,7 @@ print(gas())
 
 HS4=gas.h
 
-#効率を考慮した断熱膨張
+#効率を考慮した膨張
 H4=(HS4-H3)*E4+H3
 gas.HP=H4,P4*100
 
