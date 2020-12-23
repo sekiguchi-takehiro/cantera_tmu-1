@@ -4,7 +4,7 @@ import sdtoolbox
 from sdtoolbox.postshock import CJspeed, PostShock_eq, PostShock_fr
 from sdtoolbox.reflections import reflected_eq, reflected_fr
 from sdtoolbox.thermo import soundspeed_eq, soundspeed_fr
-
+#githubtest
 print(sys.version)
 
 #圧力kPa,温度K
