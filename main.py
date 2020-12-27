@@ -9,41 +9,60 @@ print(sys.version)
 
 #圧力kPa,温度K
 P1=101.325
-T1=298.15
-phi=0.5
-P2=180
-E2=0.65
-E4=1.0
+T1=288.15
+phi=1.0
+P2=P1*3
+
+E2=0.75
+E4=0.83
 P4=P1
 
-#定圧燃焼
-gas = ct.Solution('gri30.xml')
 
-#初期条件を設定
-gas.TPX = T1,P1*100,{'H2':2*phi, 'O2':1, 'N2':3.76}
+inigas = ct.Solution('gri30.xml')
 
-H1=gas.h
+#初期条件を設定(Air)
+gas1 = ct.Quantity(inigas)
+gas1.TPX = T1,P1*1000,{'O2':1, 'N2':3.76}
 
-print(gas())
-gasmassf=gas.mass_fraction_dict()
-H2massf=gasmassf['H2']
+H1=gas1.h
+print(gas1.report())
 #断熱圧縮
-gas.SP=None,P2*100
-
-print(gas())
-
-HS2=gas.h
+gas1.SP=None,P2*1000
 
 
+
+HS2=gas1.h
+
+print(gas1.report())
 #効率を考慮した圧縮
 H2=H1+(HS2-H1)/E2
 
 
-gas.HP=H2,P2*100
-print(gas())
+gas1.HP=H2,P2*1000
 
-H2=gas.h
-T2=gas.T
+H2=gas1.h
+T2=gas1.T
+print(gas1.report())
+
+#初期条件を設定(H2)
+gas2 = ct.Quantity(inigas)
+gas2.TPX = T1,P2*1000,{'H2':2*phi}
+
+gas1.moles = 1
+nO2 = gas1.X[gas1.species_index('O2')]
+gas2.moles = nO2 * 2*phi
+
+print(gas2.report())
+
+gas = gas1 + gas2
+print(gas.report())
+gasmassf=gas.mass_fraction_dict()
+H2massf=gasmassf['H2']
+
+
+
+
+
 
 """"
 #デトネーション
@@ -60,20 +79,25 @@ gas.equilibrate('HP')
 H3=gas.h
 
 
-print(gas())
+print(gas.report())
+
+
+
+
+
 
 #断熱膨張
-gas.SP=None,P4*100
+gas.SP=None,P4*1000
 
-print(gas())
+print(gas.report())
 
 HS4=gas.h
 
 #効率を考慮した膨張
 H4=(HS4-H3)*E4+H3
-gas.HP=H4,P4*100
+gas.HP=H4,P4*1000
 
-print(gas())
+print(gas.report())
 
 #熱効率を算出
 Eth=(H1-H4)/(H2massf*120900000)*100
