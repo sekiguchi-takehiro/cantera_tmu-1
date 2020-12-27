@@ -10,8 +10,8 @@ print(sys.version)
 #圧力kPa,温度K
 P1=101.325
 T1=288.15
-phi=0.01
-P2=P1*4
+phi=0.1
+P2=P1*1
 T3lim=840+273.15
 E2=0.75
 E4=0.82
@@ -149,8 +149,7 @@ for i  in range(10000):
     H2=gas1.h
     T2=gas1.T
     #print(gas1.report())
-    print("T2")
-    print(T2-273.159)
+   
     
     
     
@@ -168,12 +167,12 @@ for i  in range(10000):
     gas.equilibrate('HP')
     H3=gas.h
     T3=gas.h
-    #print(gas.report())
+  
     
     #断熱膨張
     gas.SP=None,P4*1000
     
-    #print(gas.report())
+    
     
     HS4=gas.h
     
@@ -181,14 +180,13 @@ for i  in range(10000):
     H4=(HS4-H3)*E4+H3
     gas.HP=H4,P4*1000
     
-    #print(gas.report())
+    
     
     gas.TP=T2,P4*1000
     HS6=gas.h
     
     H6=Er*(HS6-H4)+H4
-    #print(H4)
-    #print(H6)
+    
     
     gas.HP=H6,P4*1000
     #print(gas.report())
@@ -214,8 +212,7 @@ for i  in range(10000):
      
       
         T3=gas.T
-        print("T3")
-        print(T3)
+       
         #断熱膨張
         gas.SP=None,P4*1000
         
@@ -247,9 +244,10 @@ for i  in range(10000):
     print(T3pre-273.15)
     print(T3-273.15)
     
-    if  T3>T3lim :
+    if  T3>T3lim and i>0 :
         break
-
+    if  T3>T3lim and i==0 :
+        phi=phi/5
 print("finish")
 print(i)
 print(phi)
