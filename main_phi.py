@@ -5,7 +5,7 @@ from sdtoolbox.postshock import CJspeed, PostShock_eq, PostShock_fr
 from sdtoolbox.reflections import reflected_eq, reflected_fr
 from sdtoolbox.thermo import soundspeed_eq, soundspeed_fr
 #githubtest
-print(sys.version)
+#print(sys.version)
 import inspect
 import os
 print(inspect.getfile(ct))
