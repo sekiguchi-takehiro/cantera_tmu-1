@@ -11,10 +11,10 @@ print(sys.version)
 P1=101.325
 T1=288.15
 phi=1.0
-P2=P1*3
+P2=P1*2
 
 E2=0.75
-E4=0.83
+E4=0.82
 P4=P1
 
 
@@ -64,27 +64,28 @@ H2massf=gasmassf['H2']
 
 
 
-""""
+
 #デトネーション
 MOL=gas.mole_fraction_dict()
-cj_speed = CJspeed(P2*100, T2, MOL, 'gri30.cti')
-gas = PostShock_eq(cj_speed,P2*100,T2, MOL, 'gri30.cti')
+cj_speed = CJspeed(P2*1000, T2, MOL, 'gri30.cti')
+gas = PostShock_eq(cj_speed,P2*1000,T2, MOL, 'gri30.cti')
 print(gas())
-H3=gas.h
-"""
+
+
 """
 #定圧燃焼
 
 gas.equilibrate('HP')
 """
+"""
 #定積燃焼
 gas.equilibrate('UV')
 
-
+"""
 H3=gas.h
 
 
-print(gas.report())
+
 
 
 
@@ -93,7 +94,7 @@ print(gas.report())
 
 #断熱膨張
 gas.SP=None,P4*1000
-
+gas.equilibrate('SP')
 print(gas.report())
 
 HS4=gas.h
