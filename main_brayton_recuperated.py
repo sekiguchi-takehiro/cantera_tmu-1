@@ -19,6 +19,8 @@ Er=0.83
 P4=P1
 H6=0
 T3=0
+H2massf=0
+H1mix=0
 """
 
 inigas = ct.Solution('gri30.xml')
@@ -126,6 +128,7 @@ for i  in range(10000):
     gas2.moles = nO2 * 2*phi
     
     inigas = gas1 + gas2
+    H1mixpre=H1mix
     H1mix=inigas.h
     #print(gas2.report())
     
@@ -158,6 +161,7 @@ for i  in range(10000):
     
     
     gasmassf=gas.mass_fraction_dict()
+    H2massfpre=H2massf
     H2massf=gasmassf['H2']
     
     
@@ -254,7 +258,7 @@ print(phi)
 print(T3pre-273.15)
 
 #熱効率を算出
-Eth=(H1mix-H6prei)/(H2massf*120900000)*100
+Eth=(H1mixpre-H6prei)/(H2massfpre*120900000)*100
 print(str(Eth)+'[%]')
 
 
