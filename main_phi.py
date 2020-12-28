@@ -6,11 +6,13 @@ from sdtoolbox.reflections import reflected_eq, reflected_fr
 from sdtoolbox.thermo import soundspeed_eq, soundspeed_fr
 #githubtest
 print(sys.version)
-
+import inspect
+import os
+print(inspect.getfile(ct))
 #圧力kPa,温度K
 P1=101.325
 T1=288.15
-phi=1.0
+phi=0.8
 P2=P1*1
 
 E2=0.75
@@ -43,7 +45,9 @@ print(gas1.report())
 #断熱圧縮
 gas1.SP=None,P2*1000
 
+gas1.SP=None,P2*1000
 
+gas1.SP=None,P2*1000
 HS2=gas1.h
 
 print(gas1.report())
@@ -57,8 +61,6 @@ H2=gas1.h
 T2=gas1.T
 print(gas1.report())
 
-
-
 print(gas2.report())
 
 gas = gas1 + gas2
@@ -66,11 +68,6 @@ print(gas.report())
 
 gasmassf=gas.mass_fraction_dict()
 H2massf=gasmassf['H2']
-
-
-
-
-
 
 """
 #デトネーション
@@ -91,13 +88,6 @@ gas.equilibrate('UV')
 
 """
 H3=gas.h
-
-
-
-
-
-
-
 
 
 #断熱膨張
