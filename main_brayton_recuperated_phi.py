@@ -10,7 +10,7 @@ print(sys.version)
 #圧力kPa,温度K
 P1=101.325
 T1=288.15
-phi=0.6
+phi=0.01
 P2=P1*2
 T3lim=840+273.15
 E2=0.75
@@ -21,9 +21,6 @@ H6=0
 T3=0
 H2massf=0
 H1mix=0
-
-
-
 
 inigas = ct.Solution('gri30.xml')
 
@@ -46,13 +43,8 @@ gas2.moles = nO2 * 2*phi
 H1mix=inigas.h
 #print(gas2.report())
 
-
-
-
 #断熱圧縮
 gas1.SP=None,P2*1000
-
-
 
 HS2=gas1.h
 
@@ -66,9 +58,6 @@ gas1.HP=H2,P2*1000
 H2=gas1.h
 T2=gas1.T
 #print(gas1.report())
-   
-
-
 
 gas = gas1 + gas2
 #print(gas.report())
