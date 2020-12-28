@@ -12,7 +12,7 @@ P1=101.325
 T1=288.15
 phi=0.1
 P2=P1*1
-T3lim=840+273.15
+T3lim=3*288.15
 E2=0.75
 E4=0.82
 Er=0.83
@@ -109,7 +109,7 @@ T3pre=T30
 for i  in range(10000):
     H6prei=H6
     T3pre=T3
-    phi=phi+0.0001
+    phi=phi+0.001
     inigas = ct.Solution('gri30.xml')
     
     #初期条件を設定(Air)
@@ -170,7 +170,7 @@ for i  in range(10000):
     
     gas.equilibrate('HP')
     H3=gas.h
-    T3=gas.h
+    T3=gas.T
   
     
     #断熱膨張
@@ -179,12 +179,12 @@ for i  in range(10000):
     
     
     HS4=gas.h
+    T4=gas.T
     
     #効率を考慮した膨張
     H4=(HS4-H3)*E4+H3
     gas.HP=H4,P4*1000
-    
-    
+   
     
     gas.TP=T2,P4*1000
     HS6=gas.h
@@ -213,7 +213,7 @@ for i  in range(10000):
         gas.equilibrate('HP')
         H3=gas.h
         #print(gas.report())
-     
+       
       
         T3=gas.T
        
@@ -223,11 +223,11 @@ for i  in range(10000):
         #print(gas.report())
         
         HS4=gas.h
-        
+   
         #効率を考慮した膨張
         H4=(HS4-H3)*E4+H3
         gas.HP=H4,P4*1000
-        
+        T4=gas.T
        # print(gas.report())
         
         gas.TP=T2,P4*1000
@@ -237,10 +237,10 @@ for i  in range(10000):
         H6=Er*(HS6-H4)+H4
         #print(H6)
         gas.HP=H6,P4*1000
-       #print(gas.report())
+        #print(gas.report())
        
         
-        if H6-H6prej<1 and H6-H6prej>-1 :
+        if H6-H6prej<0.0001 and H6-H6prej>-0.0001 :
            break
     
     print(j)
