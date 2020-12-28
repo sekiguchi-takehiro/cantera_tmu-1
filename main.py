@@ -10,7 +10,7 @@ print(sys.version)
 #圧力kPa,温度K
 P1=101.325
 T1=288.15
-phi=0.1
+phi=0.3
 P2=P1*1
 T3lim=900+273.15
 E2=0.75
